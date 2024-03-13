@@ -1,6 +1,7 @@
 //EJEMPLO QUEMADO 1 USANDO Staggered_Grid_View
 //https://pub.dev/packages/flutter_staggered_grid_view
 import 'package:flutter/material.dart';
+// ignore: unused_import
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 class ClientsScreen extends StatelessWidget {
@@ -9,6 +10,36 @@ class ClientsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final uniformes = [
+      {
+        "imagen": 'assets/images/uniforme_EAN.png',
+        "nombre": "Uniforme EAN",
+        "precio": 100000,
+      },
+      {
+        "imagen": "assets/images/camiseta1.png",
+        "nombre": "Camiseta uno",
+        "precio": 120000,
+      },
+      {
+        "imagen": "assets/images/camiseta2.png",
+        "nombre": "Camiseta dos",
+        "precio": 80000,
+      },
+      {
+        "imagen": 'assets/images/uniforme_EAN.png',
+        "nombre": "Uniforme EAN",
+        "precio": 100000,
+      },
+      {
+        "imagen": "assets/images/camiseta1.png",
+        "nombre": "Camiseta uno",
+        "precio": 120000,
+      },
+      {
+        "imagen": "assets/images/camiseta2.png",
+        "nombre": "Camiseta dos",
+        "precio": 80000,
+      },
       {
         "imagen": 'assets/images/uniforme_EAN.png',
         "nombre": "Uniforme EAN",

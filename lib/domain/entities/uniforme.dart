@@ -2,15 +2,17 @@ class Uniforme {
   final String? referencia;
   final double? precioInt;
   final double? precioVenta;
-  final String? imagen;
+  final dynamic imagen;
   final String? dimensiones;
   final String? nombre;
   final String? descripcion;
-  final bool estado;
+  final dynamic estado;
   final String? marca;
-  final DateTime? fechaIngreso;
-  final int stockTallajeId;
-  final int categoriaId;
+  //Lo demás se geenra desde el back entonces no pensar en eso
+  // BSUcar read_as_a_Bite buscar como resolverlo
+  final dynamic fechaIngreso;
+  final int? stockTallajeId;
+  final int? categoriaId;
   //EL signo de interrogación es para los parámetros que permiten nulo en la BD
 
   Uniforme({
