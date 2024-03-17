@@ -1,4 +1,4 @@
-// ignore_for_file: unused_field, unused_import
+// ignore_for_file: unused_field, unused_import, avoid_print
 
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
@@ -37,7 +37,6 @@ class _UniformsScreenState extends State<UniformsScreen> {
         _uniformes = uniformes;
       });
     } catch (e) {
-      // ignore: avoid_print
       print('Error. No es posible obtener los uniformes $e');
     }
     //Cargar los datos aquí
@@ -75,6 +74,7 @@ class _UniformsScreenState extends State<UniformsScreen> {
                 //leading: Icon(Icons.album), IMAGE
                 title: Text('${_uniformes[index].nombre}'),
                 subtitle: Text('${_uniformes[index].precioVenta}'),
+                //subtitle: Text('${_uniformes[index].imagen.runtimeType}'),
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,

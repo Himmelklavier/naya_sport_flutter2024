@@ -2,6 +2,8 @@
 //métodos CRUD y la consulta a la base de datos se ubica en la capa
 //PAra mantener el principio de clean Architecture
 
+// ignore_for_file: avoid_print
+
 // ignore: unused_import
 import 'dart:convert';
 import 'package:http/http.dart' as http;
@@ -35,7 +37,6 @@ class UniformesRepository extends UniformesService {
     var response = await http.get(
         Uri.parse('http://192.168.1.10:3001/api/productos'),
         headers: headers);
-    // ignore: avoid_print
     print('Estoy recibiendo algo');
 
     if (response.statusCode == 200) {

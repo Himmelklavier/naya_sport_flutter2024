@@ -1,6 +1,10 @@
-// ignore_for_file: unused_field, unused_import
+// ignore_for_file: unused_field, unused_import, avoid_print
+
+import 'dart:convert';
+import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get_it/get_it.dart';
 import 'package:naya_sport_sebas/data/repositories/login/uniformes_repository.dart';
 import 'package:naya_sport_sebas/domain/entities/uniforme.dart';
@@ -30,14 +34,13 @@ class _AccessoriesScreenState extends State<AccessoriesScreen> {
 
   Future<void> _cargarUniformes() async {
     try {
-      print('prellamada asíncrona');
+      debugPrint('prellamada asíncrona');
       final uniformes = await uniform.obtenerUniformes();
-      print('posllamada asíncrona');
+      debugPrint('posllamada asíncrona');
       setState(() {
         _uniformes = uniformes;
       });
     } catch (e) {
-      // ignore: avoid_print
       print('Error. No es posible obtener los uniformes $e');
     }
   }
@@ -53,7 +56,19 @@ class _AccessoriesScreenState extends State<AccessoriesScreen> {
         children: _uniformes
             .map((uniforme) => Card(
                   child: Column(
-                    children: <Widget>[
+                    children: [
+                      uniforme.imagen.isEmpty
+                          ? const Icon(Icons.error)
+                          : Image.memory(
+                              _extractAndDecodeBase64Image(
+                                  uniforme.imagen.toString()),
+                              fit: BoxFit.cover,
+                              errorBuilder: (context, error, stackTrace) {
+                                return Text(
+                                  'Error loading image: ${error.toString()}',
+                                );
+                              },
+                            ),
                       ListTile(
                         //leading: Icon(Icons.album), IMAGE
                         title: Text(uniforme.nombre.toString()),
@@ -81,76 +96,29 @@ class _AccessoriesScreenState extends State<AccessoriesScreen> {
       ),
     );
   }
-}
 
-
-/* 
-//EJEMPLO QUEMADO 1 USANDO Staggered_Grid_View
-//https://pub.dev/packages/flutter_staggered_grid_view
-import 'package:flutter/material.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-
-class AccessoriesScreen extends StatelessWidget {
-  const AccessoriesScreen({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    final uniformes = [
-      {
-        "imagen": 'assets/images/uniforme_EAN.png',
-        "nombre": "Uniforme EAN",
-        "precio": 100000,
-      },
-      {
-        "imagen": "assets/images/camiseta1.png",
-        "nombre": "Camiseta uno",
-        "precio": 120000,
-      },
-      {
-        "imagen": "assets/images/camiseta2.png",
-        "nombre": "Camiseta dos",
-        "precio": 80000,
-      },
-    ];
-
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Uniformes'),
-      ),
-      body: ListView.builder(
-        itemCount: uniformes.length,
-        itemBuilder: (context, index) {
-          return tile(uniforme: uniformes[index]);
-        },
-      ), /* 
-        body: GridView.custom(
-          gridDelegate: SliverQuiltedGridDelegate(
-            crossAxisCount: 2,
-            mainAxisSpacing: 8,
-            crossAxisSpacing: 8,
-            pattern: const [
-              QuiltedGridTile(2, 2),
-              QuiltedGridTile(2, 2),
-              QuiltedGridTile(2, 2),
-            ],
-          ),
-          childrenDelegate: SliverChildBuilderDelegate(
-              (context, index) => tile(uniforme: uniformes[index])),
-        ));
-         */
-    );
-  }
-
-  Widget tile({required Map uniforme}) {
-    return Card(
-      child: Column(
-        children: [
-          Image.asset(uniforme["imagen"]),
-          Text(uniforme["nombre"]),
-          Text("\$${uniforme["precio"].toStringAsFixed(2)}"),
-        ],
-      ),
-    );
+// Helper function to extract and decode Base64 image safely
+  Uint8List _extractAndDecodeBase64Image(dynamic imagenData) {
+    //debugPrint(imagenData);
+    if (imagenData is String && imagenData.isNotEmpty) {
+      try {
+        debugPrint('imagen es string y no es empty, decodificando');
+        return base64.decode(imagenData);
+        /*    return base64.decode(imagenData
+            .substring(20)
+            .replaceAll(RegExp(r'[{}]'), '')
+            .replaceAll(RegExp(r'\[|\]'), '')
+            .replaceAll(RegExp(r'\s'), '')
+            .replaceAll(RegExp(r','), '')); */
+        // return base64.decode(imagenData.substring(22).replaceAll(RegExp(r'[{}]'), ''));
+        // return base64Decode(imagenData.replaceAll(RegExp(r'[{}]'), ''));
+      } catch (error) {
+        print('Error decoding Base64 image: $error');
+        return Uint8List(0); // Empty list on error
+      }
+    } else {
+      debugPrint('imagen no es String o is empty');
+      return Uint8List(0); // Empty list if imagenData is not a String
+    }
   }
 }
- */
